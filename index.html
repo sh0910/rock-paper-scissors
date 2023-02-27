@@ -6,6 +6,41 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Rock, Paper, Scissors</title>
 		<script defer src="script.js"></script>
+		<style>
+			body {
+				text-align: center;
+			}
+
+			.choice {
+				color: blueviolet;
+				font-weight: bold;
+			}
+		</style>
 	</head>
-	<body></body>
+	<body>
+		<main class="container">
+			<div class="choices">
+				<h2>Rock Paper Scissors</h2>
+				<p>First one to win five rounds win!</p>
+				<h3>ROUND <span class="round">0</span></h3>
+				<p>Make your choice:</p>
+				<button class="btn btn__rock">Rock</button>
+				<button class="btn btn__paper">Paper</button>
+				<button class="btn btn__scissors">Scissors</button>
+			</div>
+			<div class="choice__result">
+				<p>You choose: <span class="choice choice__player">___</span></p>
+				<p>
+					Computer chooses: <span class="choice choice__computer">___</span>
+				</p>
+
+				<p class="result">Good luck!</p>
+			</div>
+			<div class="scoreboard">
+				<h2>Scoreboard</h2>
+				<p>PLAYER: <span class="score__player">0</span></p>
+				<p>COMPUTER: <span class="score__computer">0</span></p>
+			</div>
+		</main>
+	</body>
 </html>
