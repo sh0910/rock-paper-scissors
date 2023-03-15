@@ -1,103 +1,90 @@
 'use strict';
 
-const btnRock = document.querySelector('.btn__rock');
-const btnPaper = document.querySelector('.btn__paper');
-const btnScissors = document.querySelector('.btn__scissors');
-const choiceResultContainer = document.querySelector('.choice__result');
-const scorePlayer = document.querySelector('.score__player');
-const scoreComputer = document.querySelector('.score__computer');
-const result = document.querySelector('.result');
-const choicePlayer = document.querySelector('.choice__player');
-const choiceComputer = document.querySelector('.choice__computer');
-const round = document.querySelector('.round');
+const btnChoices = document.querySelectorAll('[data-choice]');
+const imgPlayer = document.querySelector('.player-img');
+const imgComputer = document.querySelector('.computer-img');
+const resultText = document.querySelector('.result-text');
+const scorePlayer = document.querySelector('.score-player');
+const scoreComputer = document.querySelector('.score-computer');
+const btnReset = document.querySelector('.btn-play-again');
+const modal = document.querySelector('.modal');
+const modalText = document.querySelector('.modal-text');
 
 const choices = ['rock', 'paper', 'scissors'];
 const score = [0, 0]; // [player, computer]
-let gameRound = 0;
 
 let playerSelection;
 let computerSelection;
 
-/* 
-// Get player choice via prompt
-const getPlayerChoice = () => {
-	const choice = prompt('Rock, paper, or scissors?').toLowerCase();
-	if (!choices.includes(choice)) return getPlayerChoice();
-	playerSelection = choice;
-};
- */
+function getComputerChoice() {
+	computerSelection = choices[Math.floor(Math.random() * 3)];
+	return computerSelection;
+}
 
-const getComputerChoice = function () {
-	return choices[Math.floor(Math.random() * 3)];
-};
-
-const playRound = function (playerSelection, computerSelection) {
+const playRound = (playerSelection, computerSelection) => {
 	if (playerSelection === computerSelection) {
-		result.innerHTML = `It's a tie! Both choose ${playerSelection}`;
+		resultText.innerHTML = `It's a tie! 👔 Both choose ${playerSelection}`;
 	} else if (
 		(playerSelection === 'rock' && computerSelection === 'scissors') ||
 		(playerSelection === 'paper' && computerSelection === 'rock') ||
 		(playerSelection === 'scissors' && computerSelection === 'paper')
 	) {
 		score[0] += 1;
-		scorePlayer.textContent = score[0];
-		result.innerHTML = `🥳 You win! ${playerSelection} beats ${computerSelection}`;
+		resultText.innerHTML = `You win! 🥳 ${playerSelection[0].toUpperCase()}${playerSelection.slice(
+			1
+		)} beats ${computerSelection}`;
 	} else if (
 		(playerSelection === 'rock' && computerSelection === 'paper') ||
 		(playerSelection === 'paper' && computerSelection === 'scissors') ||
 		(playerSelection === 'scissors' && computerSelection === 'rock')
 	) {
 		score[1] += 1;
-		scoreComputer.textContent = score[1];
-		result.innerHTML = `🥵 You lose! ${computerSelection} beats ${playerSelection}`;
+		resultText.innerHTML = `You lose! 🥵 ${computerSelection[0].toUpperCase()}${computerSelection.slice(
+			1
+		)} beats ${playerSelection}`;
 	} else {
-		console.log('Oops... something went wrong....');
+		console.error('Oops! Something went wrong...');
 	}
 };
 
-const game = function () {
-	playRound(playerSelection, computerSelection);
+function updateDisplay() {
+	scorePlayer.textContent = score[0];
+	scoreComputer.textContent = score[1];
 
-	// todo make popup  'you win!' and link to play again
+	if (!playerSelection) return;
+
+	imgPlayer.src = `img/${playerSelection}.png`;
+	imgPlayer.alt = `${playerSelection} icon`;
+	imgComputer.src = `img/${computerSelection}.png`;
+	imgComputer.alt = `${computerSelection} icon`;
+
 	if (score[0] === 5) {
-		document.body.style.backgroundColor = 'green';
+		modalText.textContent = 'You win! 👑';
+		modal.classList.remove('hidden');
 	}
 
 	if (score[1] === 5) {
-		document.body.style.backgroundColor = 'red';
+		modalText.textContent = 'You lose! 💩';
+		modal.classList.remove('hidden');
 	}
-};
+}
 
-btnRock.addEventListener('click', function () {
-	playerSelection = 'rock';
-	choicePlayer.textContent = playerSelection;
-
-	computerSelection = getComputerChoice();
-	choiceComputer.textContent = computerSelection;
-
-	game();
-
-	gameRound++;
-	round.textContent = gameRound;
+btnChoices.forEach((btn) => {
+	btn.addEventListener('click', (e) => {
+		playerSelection = e.target.parentElement.dataset.choice;
+		getComputerChoice();
+		playRound(playerSelection, computerSelection);
+		updateDisplay();
+	});
 });
 
-/* btnPaper.addEventListener('click', function () {
-	playerSelection = 'paper';
-	console.log(playerSelection);
-
-	choiceResultContainer.insertAdjacentText(
-		'afterbegin',
-		`You choose ${playerSelection}.`
-	);
+btnReset.addEventListener('click', () => {
+	modal.classList.add('hidden');
+	modalText.textContent = '';
+	playerSelection = computerSelection = '';
+	score[0] = 0;
+	score[1] = 0;
+	resultText.textContent = 'Good luck!';
+	imgPlayer.src = imgComputer.src = 'img/question-mark.png';
+	updateDisplay();
 });
-
-btnScissors.addEventListener('click', function () {
-	playerSelection = 'scissors';
-	console.log(playerSelection);
-	choiceResultContainer.textContent = '';
-	choiceResultContainer.insertAdjacentText(
-		'afterbegin',
-		`You choose ${playerSelection}.`
-	);
-});
- */
