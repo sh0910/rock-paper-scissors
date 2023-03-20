@@ -5,11 +5,12 @@
 #f6e6c2;
  */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	/* border: 1px solid red; */
 }
 
 body {
@@ -35,7 +36,6 @@ p {
 	font-size: 1.2rem;
 }
 
-/* RESULT */
 .result-container {
 	max-width: 60rem;
 	background-color: #fff;
@@ -63,7 +63,6 @@ p {
 	color: #ffaacf;
 }
 
-/* CHOICES CONTAINER */
 .choices-container {
 	margin: 2rem;
 	display: flex;
